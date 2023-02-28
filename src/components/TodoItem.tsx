@@ -40,32 +40,33 @@ const TodoItem: React.FC<TodoItemType> = (props) => {
   };
 
   return (
-    <li className="todo-item">
+    <li className="border-b-2 border-gray-300 p-4 flex justify-between items-center">
       {isEdit === false ? (
-        <div onDoubleClick={() => setIsEdit(true)}>
-          <span>{text}</span>
-          <span className="date-text">
-            {new Date(timestamp?.toDate()).toLocaleString()}
-          </span>
+        <div onDoubleClick={() => setIsEdit(true)} className="flex items-center space-x-2">
+          <span className="text-lg">{text}</span>
+          <span className="text-sm text-gray-500">{new Date(timestamp?.toDate()).toLocaleString()}</span>
         </div>
       ) : (
         <div>
-          <form onSubmit={onSubmitUpdate}>
+          <form onSubmit={onSubmitUpdate} className="flex items-center space-x-2">
             <input
               type="text"
-              className="update-input"
+              className="border border-gray-400 py-1 px-2 rounded-md w-64"
               placeholder={text}
               ref={updateInput}
               onChange={(e) => setUpdate(e.target.value)}
             />
-            <button className="updateBtn" onClick={() => updateItem(id)}>
+            <button className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-md">
               更新
             </button>
           </form>
         </div>
       )}
 
-      <button className="deleteBtn" onClick={() => deleteItem(id)}>
+      <button
+        className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded-md"
+        onClick={() => deleteItem(id)}
+      >
         削除
       </button>
     </li>
