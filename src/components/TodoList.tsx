@@ -1,19 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, query, onSnapshot, orderBy } from 'firebase/firestore';
 import TodoItem from './TodoItem';
 
-type TodoListType={
+type TodoListType = {
   id: string;
   text: string;
   timestamp: any;
 };
 
 const TodoList: React.FC = () => {
-  const [todos, setTodos] = useState<TodoListType[]>([{id: '', text: '', timestamp: null}, ]);
+  const [todos, setTodos] = useState<TodoListType[]>([
+    { id: '', text: '', timestamp: null },
+  ]);
   useEffect(() => {
     const q = query(collection(db, 'todos'), orderBy('timestamp', 'desc'));
-    const unSub = onSnapshot(q, async(snapshot) => {
+    const unSub = onSnapshot(q, async (snapshot) => {
       setTodos(
         snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -22,14 +24,15 @@ const TodoList: React.FC = () => {
         }))
       );
     });
-    return() => {
+
+    return () => {
       unSub();
     };
   }, []);
 
-  return(
+  return (
     <>
-      {todos[0]?.id&&(
+      {todos[0]?.id && (
         <>
           {todos.map((todo) => (
             <TodoItem key={todo.id} todo={todo} />
@@ -39,3 +42,5 @@ const TodoList: React.FC = () => {
     </>
   );
 };
+
+export default TodoList;
